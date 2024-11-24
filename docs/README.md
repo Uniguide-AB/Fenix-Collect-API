@@ -1,10 +1,10 @@
 # About Fenix Collect  API
 
-
+This 
 
 ## Resources
 
-These resources are used by the wevhooks and the REST API.
+These resources are used by the webhooks and the REST API.
 
 #### <a name="webhook"></a> [webhook](#webhook)  
 
@@ -128,7 +128,10 @@ Uniguide can provide an API Account to create "links"
 
 Base URL `https://app.fenixcollect.se/pub/v1`
 
-Each request need a header named `API-KEY`  
+Each request need three headers 
+* `API-KEY`
+* `Content-Type: application/json`
+* `Accept: application/json` 
 
 | **Uri**                                         | **Request**                        | **Returns**                    | **Remarks**                                                  |
 | ----------------------------------------------- | ---------------------------------- | ------------------------------ | ------------------------------------------------------------ |
@@ -146,3 +149,38 @@ Each request need a header named `API-KEY`
 | `email`            | `string` `(nullable)`  | Sometimes required. Depends on campaign settings   |
 | `external_id`      | `string` `(nullable)`  | Sometimes required. Depends on campaign settings   |
 | `suggested_amount` | `numeric` `(nullable)` | Whole numbers only. Dependent on campaign settings |
+
+### Example request with default campaign settings
+
+```curl
+curl --location 'https://api.fenixcollect.se/pub/v1/campaigns/9d918668-8058-43f0-bf14-bb819e3fe80a/new-contact' \
+--header 'API-KEY: fe3a11a4-cbd8-4946-8e6c-5ba0de15adac' \
+--header 'Content-Type: application/json' \
+--header 'Accept: application/json' \
+--data '{
+  "name": "Tony",
+  "ssn": "19800113-9297"
+}'
+```
+
+### Status codes
+
+* `200 Ok` Resources was retrieved
+* `201 Created` Resource was created
+* `403 Forbidden` Wrong and or missing API-KEY
+* `422 Unprocessable Content` Some or all parameters needs attention
+
+#### Example of 422 
+```json
+{
+    "message": "Ogiltigt personnummer: format: YYYYMMDD-XXXX",
+    "errors": {
+        "ssn": [
+            "Ogiltigt personnummer: format: YYYYMMDD-XXXX"
+        ]
+    }
+}
+```
+
+
+
