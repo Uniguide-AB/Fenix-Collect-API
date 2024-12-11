@@ -59,7 +59,7 @@ These resources are used by the webhooks and the REST API.
 ### Process
 
 1. A contact conversion is completed by the prospect *(agreement has been signed with BankId)*.
-2. Fenix Collect will send a payload to the registered URL(s) for the customer.
+2. Fenix Collect will send a payload to the registered URL(s) for the customer. The webhook URL can be set globally or per created contact.
 2. Each webhook request assumes a status code of 2xx to be returned.
 
 
@@ -139,15 +139,16 @@ Each request need three headers
 
 <a name="newContact"></a> [New Contact Request](#newContact)  
 
-| Name               | Type                   | Remarks                                            |
-| ------------------ | ---------------------- | -------------------------------------------------- |
-| `name`             | `string`               | Required. Used as first name if `last_name`        |
-| `last_name`        | `string` `(nullable)`  | Sometimes required. Depends on campaign settings   |
-| `ssn`              | `string` `(nullable)`  | Sometimes required. Depends on campaign settings   |
-| `phone`            | `string` `(nullable)`  | Sometimes required. Depends on campaign settings   |
-| `email`            | `string` `(nullable)`  | Sometimes required. Depends on campaign settings   |
-| `external_id`      | `string` `(nullable)`  | Sometimes required. Depends on campaign settings   |
-| `suggested_amount` | `numeric` `(nullable)` | Whole numbers only. Dependent on campaign settings |
+| Name               | Type                   | Remarks                                                      |
+| ------------------ | ---------------------- | ------------------------------------------------------------ |
+| `name`             | `string`               | Required. Used as first name if `last_name`                  |
+| `last_name`        | `string` `(nullable)`  | Sometimes required. Depends on campaign settings             |
+| `ssn`              | `string` `(nullable)`  | Sometimes required. Depends on campaign settings             |
+| `phone`            | `string` `(nullable)`  | Sometimes required. Depends on campaign settings             |
+| `email`            | `string` `(nullable)`  | Sometimes required. Depends on campaign settings             |
+| `external_id`      | `string` `(nullable)`  | Sometimes required. Depends on campaign settings             |
+| `suggested_amount` | `numeric` `(nullable)` | Whole numbers only. Dependent on campaign settings           |
+| `callback_url`     | `string` `(nullable)`  | Must be a valid URL. Will take precedence over the global set URL |
 
 ### Example request with default campaign settings
 
@@ -180,6 +181,3 @@ curl --location 'https://api.fenixcollect.se/pub/v1/campaigns/9d918668-8058-43f0
     }
 }
 ```
-
-
-
